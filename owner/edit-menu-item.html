@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>แก้ไขเมนู - ร้านลุง</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div id="toast"></div>
+
+<div class="container">
+  <div class="header">
+    <div style="display:flex;align-items:center;gap:10px">
+      <button onclick="location.href='menu.html'" style="border:none;background:none;font-size:18px;padding:4px"><i data-lucide="arrow-left"></i></button>
+      <p class="page-title">แก้ไขเมนู</p>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>ชื่อเมนู</label>
+    <input type="text" id="itemName">
+  </div>
+  <div class="field">
+    <label>ราคา</label>
+    <input type="number" id="itemPrice">
+  </div>
+
+  <div class="card" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+    <div>
+      <p style="font-size:15px;font-weight:500;margin:0">เมนูนี้มีของขาย</p>
+      <p style="font-size:13px;color:var(--text-secondary);margin:2px 0 0">ปิดไว้ถ้าของหมด</p>
+    </div>
+    <label class="switch">
+      <input type="checkbox" id="itemAvailable">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <button class="btn-primary" id="saveBtn" style="margin-bottom:24px">บันทึก</button>
+
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+    <p style="font-size:15px;font-weight:500;margin:0" id="optionCountLabel">ตัวเลือกของเมนูนี้ (0)</p>
+    <button onclick="document.getElementById('addOptionModal').classList.add('show')" style="font-size:13px;padding:6px 12px">+ เพิ่ม</button>
+  </div>
+
+  <div id="optionsList"></div>
+</div>
+
+<!-- Modal เพิ่มกลุ่มตัวเลือก -->
+<div class="modal-overlay" id="addOptionModal">
+  <div class="modal-box">
+    <h3>เพิ่มกลุ่มตัวเลือก</h3>
+    <div class="field">
+      <label>ชื่อกลุ่มตัวเลือก</label>
+      <input type="text" id="optGroupName" placeholder="เช่น เลือกเนื้อสัตว์">
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+      <input type="checkbox" id="optRequired" style="width:18px;height:18px">
+      <label for="optRequired" style="font-size:14px">ต้องเลือกก่อนสั่ง</label>
+    </div>
+
+    <p style="font-size:13px;color:var(--text-secondary);margin:0 0 8px">ตัวเลือกย่อย</p>
+    <div id="choiceRows"></div>
+    <button onclick="addChoiceRow()" style="width:100%;margin-bottom:14px;font-size:13px">+ เพิ่มตัวเลือกย่อย</button>
+
+    <div class="modal-actions">
+      <button onclick="document.getElementById('addOptionModal').classList.remove('show')">ยกเลิก</button>
+      <button class="btn-success" id="saveOptionBtn" style="width:auto">บันทึก</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="js/vendor/socket.io.min.js"></script>
+<script src="js/api.js"></script>
+<script src="js/edit-menu-item.js"></script>
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>สั่งอาหารกลับบ้าน (Takeaway) - ร้านอาหารตามสั่ง</title>
+  <link rel="stylesheet" href="css/customer.css">
+</head>
+
+<body>
+  <div class="customer-container">
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast-msg"></div>
+
+    <!-- Sticky Header -->
+    <header class="top-header">
+      <div class="brand-row">
+        <div class="shop-info-box">
+          <h1 id="shopName">ร้านอาหารตามสั่ง คุณป้า</h1>
+        </div>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <div class="table-badge" style="background:#fef2f2;color:#dc2626;">
+            <i data-lucide="shopping-bag"></i> สั่งกลับบ้าน
+          </div>
+          <div id="shopStatusBadge" class="shop-status-tag open">
+            <span class="status-dot"></span>
+            <span id="shopStatusText">เปิดรับออเดอร์</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- View Switcher Tabs -->
+      <div class="view-tabs">
+        <button id="tabMenuBtn" class="tab-btn active" onclick="switchView('menu')">
+          <i data-lucide="utensils"></i> เลือกเมนู
+        </button>
+        <button id="tabStatusBtn" class="tab-btn" onclick="switchView('status')">
+          <i data-lucide="search"></i> ติดตามสถานะ
+        </button>
+      </div>
+    </header>
+
+    <!-- Shop Closed Alert Banner -->
+    <div id="closedBanner" class="closed-banner" style="display: none;">
+      <i data-lucide="triangle-alert"></i> ขณะนี้ร้านปิดรับออเดอร์กลับบ้านชั่วคราว
+    </div>
+
+    <!-- Switch to Dine-In Banner Link -->
+    <div style="padding: 10px 16px; background: var(--surface-muted); border-bottom: 1px solid var(--border);">
+      <a href="index.html" style="
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        color: #ffffff;
+        font-weight: 600;
+        font-size: 0.95rem;
+        padding: 12px 18px;
+        border-radius: var(--radius-md);
+        text-decoration: none;
+        box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+      ">
+        <i data-lucide="utensils" style="font-size: 1.1rem;"></i>
+        <span>ต้องการทานที่ร้าน? คลิกสั่งอาหารที่โต๊ะ</span>
+        <i data-lucide="arrow-right" style="font-size: 1.1rem; margin-left: 2px;"></i>
+      </a>
+    </div>
+
+    <!-- Category Chips Bar -->
+    <nav id="categoryChipsNav" class="categories-chips">
+      <!-- Dynamic Categories -->
+    </nav>
+
+    <!-- Content Area: Menu View -->
+    <main id="menuView" class="content-section">
+      <!-- Customer Information Card -->
+      <div class="status-card" style="margin-top:12px;margin-bottom:12px;background:#fffbeb;border-color:#fde68a;">
+        <div style="font-weight:700;font-size:0.92rem;margin-bottom:8px;color:#b45309;">
+          <i data-lucide="user"></i> ข้อมูลผู้สั่งสินค้า (สำหรับแจ้งรับอาหาร)
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <input type="text" id="custNameInput" placeholder="ชื่อของคุณ *"
+            style="padding:10px;border:1px solid #fcd34d;border-radius:8px;font-size:0.88rem;outline:none;">
+          <input type="tel" id="custPhoneInput" placeholder="เบอร์โทรศัพท์ *"
+            style="padding:10px;border:1px solid #fcd34d;border-radius:8px;font-size:0.88rem;outline:none;">
+        </div>
+      </div>
+
+      <div id="menuContainer">
+        <!-- Dynamic Menu List -->
+      </div>
+    </main>
+
+    <!-- Content Area: Takeaway Status View -->
+    <main id="statusView" class="content-section" style="display: none;">
+      <div class="status-card" style="margin-top:16px;">
+        <div style="font-weight:700;font-size:0.95rem;margin-bottom:8px;"><i data-lucide="search"></i> ค้นหาออเดอร์กลับบ้านของคุณ</div>
+        <div style="display:flex;gap:8px;">
+          <input type="tel" id="searchPhoneInput" placeholder="ระบุเบอร์โทรศัพท์"
+            style="flex:1;padding:10px;border:1px solid var(--border);border-radius:8px;font-size:0.88rem;">
+          <button class="add-btn" style="padding:10px 16px;" onclick="searchTakeawayStatus()">ค้นหา</button>
+        </div>
+      </div>
+
+      <div id="takeawayStatusContainer">
+        <!-- Dynamic Order Status List -->
+      </div>
+    </main>
+
+    <!-- Floating Cart Bar -->
+    <div id="cartFloatingBar" class="cart-floating-bar" style="display: none;" onclick="openCartModal()">
+      <div class="cart-bar-left">
+        <div class="cart-icon-wrapper">
+          <i data-lucide="shopping-bag"></i>
+          <span id="cartCountBadge" class="cart-badge">0</span>
+        </div>
+        <div class="cart-bar-info">
+          <span class="cart-bar-count">ออเดอร์กลับบ้าน</span>
+          <span id="cartTotalDisplay" class="cart-bar-total">0 ฿</span>
+        </div>
+      </div>
+      <div class="cart-bar-btn">
+        ดูตะกร้า <i data-lucide="arrow-right"></i>
+      </div>
+    </div>
+
+    <!-- Modal 1: Option Customization Bottom Sheet -->
+    <div id="optionModal" class="modal-overlay" onclick="handleModalOverlayClick(event, 'optionModal')">
+      <div class="bottom-sheet">
+        <div class="sheet-handle"></div>
+        <div class="sheet-header">
+          <div>
+            <h2 id="modalItemTitle" class="sheet-title">ผัดกะเพราหมูสับ</h2>
+            <div id="modalItemPrice" class="sheet-subtitle">50 ฿</div>
+          </div>
+          <button class="close-modal-btn" onclick="closeOptionModal()"><i data-lucide="x"></i></button>
+        </div>
+
+        <div id="optionGroupsContainer"></div>
+
+        <div class="custom-note-group">
+          <div class="option-group-name"><i data-lucide="pencil-line"></i> หมายเหตุเพิ่มเติม (ถ้ามี)</div>
+          <textarea id="modalCustomNote" class="custom-note-input" rows="2"
+            placeholder="เช่น เผ็ดน้อย, ใส่กล่อง..."></textarea>
+        </div>
+
+        <div class="qty-stepper-row">
+          <span style="font-weight: 600; font-size: 0.9rem;">จำนวน</span>
+          <div class="stepper-box">
+            <button class="stepper-btn" onclick="changeModalQty(-1)">-</button>
+            <span id="modalQtyDisplay" class="stepper-val">1</span>
+            <button class="stepper-btn" onclick="changeModalQty(1)">+</button>
+          </div>
+        </div>
+
+        <button id="addToCartBtn" class="btn-cta" onclick="confirmAddToCart()">
+          เพิ่มลงตะกร้า • <span id="modalSubtotalDisplay">50 ฿</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Modal 2: Cart Review & Checkout Bottom Sheet -->
+    <div id="cartModal" class="modal-overlay" onclick="handleModalOverlayClick(event, 'cartModal')">
+      <div class="bottom-sheet">
+        <div class="sheet-handle"></div>
+        <div class="sheet-header">
+          <div>
+            <h2 class="sheet-title"><i data-lucide="shopping-bag"></i> ยืนยันออเดอร์สั่งกลับบ้าน</h2>
+            <div class="sheet-subtitle" id="cartCustSummary"></div>
+          </div>
+          <button class="close-modal-btn" onclick="closeCartModal()"><i data-lucide="x"></i></button>
+        </div>
+
+        <div id="cartItemsContainer"></div>
+
+        <div style="margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--border);">
+          <div
+            style="display: flex; justify-content: space-between; font-size: 1.05rem; font-weight: 700; margin-bottom: 16px;">
+            <span>ยอดรวมทั้งสิ้น</span>
+            <span id="cartTotalSummary" style="color: var(--primary-dark);">0 ฿</span>
+          </div>
+
+          <button id="submitOrderBtn" class="btn-cta" onclick="submitTakeawayOrder()">
+            <i data-lucide="send"></i> ยืนยันส่งออเดอร์กลับบ้าน
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="js/vendor/socket.io.min.js"></script>
+  <script src="js/takeaway.js"></script>
+</body>
+
+</html>

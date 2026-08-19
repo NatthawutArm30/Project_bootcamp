@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ต้อนรับ - ระบบสั่งอาหาร QR Code</title>
+  <link rel="stylesheet" href="css/customer.css">
+  <style>
+    body {
+      background: linear-gradient(135deg, #fffbeb 0%, #f8fafc 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .welcome-card {
+      width: 100%;
+      max-width: 560px;
+      background: #ffffff;
+      border-radius: 28px;
+      padding: 32px 24px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+      border: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .shop-logo-box {
+      width: 76px;
+      height: 76px;
+      background: #fef3c7;
+      color: #d97706;
+      font-size: 2.6rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.22);
+    }
+
+    .welcome-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .shop-name-sub {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--primary-dark);
+      margin-bottom: 12px;
+    }
+
+    .table-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 6px 18px;
+      border-radius: 999px;
+      margin-bottom: 20px;
+    }
+
+    .section-prompt {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+      font-weight: 500;
+    }
+
+    /* 2 Columns Side-by-Side Grid Layout */
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 380px) {
+      .options-grid {
+        gap: 10px;
+      }
+    }
+
+    .choice-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px 14px;
+      border-radius: 22px;
+      text-decoration: none;
+      color: #ffffff;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      min-height: 190px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    .choice-card:active {
+      transform: scale(0.96);
+    }
+
+    .choice-dine-in {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      box-shadow: 0 8px 22px rgba(245, 158, 11, 0.38);
+    }
+
+    .choice-takeaway {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      box-shadow: 0 8px 22px rgba(16, 185, 129, 0.38);
+    }
+
+    .choice-icon {
+      font-size: 3.2rem;
+      margin-bottom: 10px;
+    }
+
+    .choice-title-text {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      line-height: 1.2;
+    }
+
+    .choice-desc {
+      font-size: 0.8rem;
+      opacity: 0.92;
+      font-weight: 400;
+      line-height: 1.35;
+    }
+
+    .choice-badge {
+      margin-top: 12px;
+      background: rgba(255, 255, 255, 0.25);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+    }
+
+    .forbidden-box {
+      padding: 16px;
+      background: #ffebe9;
+      border: 1px solid #ff8182;
+      color: #a40e26;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      margin-bottom: 16px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="welcome-card">
+    <div class="shop-logo-box"><i data-lucide="chef-hat"></i></div>
+    <h1 class="welcome-title">ยินดีต้อนรับ!</h1>
+    <div id="shopNameDisplay" class="shop-name-sub">ร้านอาหารตามสั่ง คุณป้า</div>
+
+    <div id="tablePillDisplay" class="table-pill">
+      <i data-lucide="map-pin"></i> คุณกำลังอยู่ที่ <strong>โต๊ะ <span id="tableNumText">1</span></strong>
+    </div>
+
+    <div id="forbiddenMessage" class="forbidden-box" style="display: none;">
+      <i data-lucide="triangle-alert"></i> หมายเลขโต๊ะไม่ถูกต้องหรือไม่มีในระบบ (คุณยังสามารถเลือกสั่งกลับบ้านได้)
+    </div>
+
+    <p class="section-prompt">กรุณาเลือกรูปแบบการสั่งอาหารเพื่อเริ่มต้น</p>
+
+    <!-- Side by Side 2-Column Buttons -->
+    <div class="options-grid">
+      <!-- Choice 1: Dine-In (Left Side) -->
+      <a id="dineInLink" href="customer.html" class="choice-card choice-dine-in">
+        <div class="choice-icon"><i data-lucide="utensils"></i></div>
+        <div class="choice-title-text">ทานที่ร้าน</div>
+        <div class="choice-desc">นั่งทานที่ร้าน<br>รอเสิร์ฟที่โต๊ะ</div>
+        <div class="choice-badge">โต๊ะ <span id="dineInTableLabel">1</span> <i data-lucide="arrow-right"></i></div>
+      </a>
+
+      <!-- Choice 2: Takeaway (Right Side) -->
+      <a href="takeaway.html" class="choice-card choice-takeaway">
+        <div class="choice-icon"><i data-lucide="shopping-bag"></i></div>
+        <div class="choice-title-text">สั่งกลับบ้าน</div>
+        <div class="choice-desc">สั่งใส่กล่อง<br>นำกลับบ้าน</div>
+        <div class="choice-badge">Takeaway <i data-lucide="arrow-right"></i></div>
+      </a>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    const API_BASE = '/api';
+
+    function getTableNumber() {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has('table')) {
+        const raw = urlParams.get('table');
+        const table = parseInt(raw, 10);
+        if (!table || isNaN(table) || table <= 0) return null;
+        return table;
+      }
+      return 1;
+    }
+
+    const tableNum = getTableNumber();
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      // 1. Fetch shop info
+      try {
+        const res = await fetch(`${API_BASE}/shop`);
+        if (res.ok) {
+          const shop = await res.json();
+          if (shop.name) {
+            document.getElementById('shopNameDisplay').textContent = shop.name;
+          }
+        }
+      } catch (err) {
+        console.error(err);
+      }
+
+      // 2. Setup table link & check table validity
+      const tablePill = document.getElementById('tablePillDisplay');
+      const tableText = document.getElementById('tableNumText');
+      const dineInLabel = document.getElementById('dineInTableLabel');
+      const dineInLink = document.getElementById('dineInLink');
+      const forbiddenMsg = document.getElementById('forbiddenMessage');
+
+      if (tableNum === null) {
+        tablePill.style.display = 'none';
+        forbiddenMsg.style.display = 'block';
+        dineInLink.style.opacity = '0.5';
+        dineInLink.style.pointerEvents = 'none';
+      } else {
+        tableText.textContent = tableNum;
+        dineInLabel.textContent = tableNum;
+        dineInLink.href = `customer.html?table=${tableNum}`;
+
+        // Verify table existence via backend
+        try {
+          const res = await fetch(`${API_BASE}/sessions/table/${tableNum}`);
+          if (res.status === 403 || res.status === 400) {
+            tablePill.style.background = '#ffebe9';
+            tablePill.style.color = '#a40e26';
+            tablePill.innerHTML = `<i data-lucide="triangle-alert"></i> หมายเลขโต๊ะ <strong>${tableNum}</strong> ไม่มีในระบบ`;
+            forbiddenMsg.style.display = 'block';
+            dineInLink.style.opacity = '0.5';
+            dineInLink.style.pointerEvents = 'none';
+            if (window.lucide) lucide.createIcons();
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      }
+
+      if (window.lucide) lucide.createIcons();
+    });
+  </script>
+</body>
+
+</html>

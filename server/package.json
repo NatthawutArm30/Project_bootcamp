@@ -1,0 +1,21 @@
+{
+  "name": "owner-web-server",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Backend (REST API + Socket.IO) สำหรับเว็บฝั่งเจ้าของร้าน — ข้อมูลเก็บในหน่วยความจำ (mock) ใช้สำหรับรันทดสอบหน้าเว็บให้ทำงานได้ครบวงจร",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node --watch server.js",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^13.0.3",
+    "express": "^4.19.2",
+    "mysql2": "^3.23.3",
+    "socket.io": "^4.7.5",
+    "sqlite": "^5.1.1"
+  }
+}

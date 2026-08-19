@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>หน้าหลัก - ร้านลุง</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+  <div id="toast"></div>
+
+  <div class="container">
+    <div class="header">
+      <div>
+        <p class="shop-name" id="shopName">ร้าน...</p>
+        <p class="page-title">หน้าหลัก</p>
+      </div>
+      <div class="status-badge open" id="shopStatusBadge">
+        <span class="dot"></span>
+        <span id="shopStatusText">กำลังโหลด...</span>
+      </div>
+    </div>
+
+    <button class="btn-danger" id="toggleShopBtn">
+      <span id="toggleShopIcon"><i data-lucide="power"></i></span>
+      <span id="toggleShopText">ปิดร้าน / หยุดรับออเดอร์</span>
+    </button>
+    <div style="height:14px"></div>
+
+    <div class="channel-row">
+      <div class="card channel-card" id="dineInCard">
+        <div class="label"><i data-lucide="utensils-crossed"></i> ทานที่ร้าน</div>
+        <div class="row">
+          <span class="channel-status" id="dineInStatus">รับอยู่</span>
+          <label class="switch">
+            <input type="checkbox" id="dineInToggle">
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+      <div class="card channel-card" id="takeawayCard">
+        <div class="label"><i data-lucide="shopping-bag"></i> สั่งกลับบ้าน</div>
+        <div class="row">
+          <span class="channel-status" id="takeawayStatus">รับอยู่</span>
+          <label class="switch">
+            <input type="checkbox" id="takeawayToggle">
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="order-banner" id="newOrderBanner" style="display:none">
+      <div class="icon-circle"><i data-lucide="chef-hat"></i></div>
+      <div>
+        <p class="title" id="newOrderTitle">ออเดอร์ใหม่ 0 รายการ</p>
+        <p class="subtitle" id="newOrderSubtitle"></p>
+      </div>
+      <button onclick="location.href='new-orders.html'">ดู <i data-lucide="arrow-up-right"></i></button>
+    </div>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px;margin-bottom:8px">
+      <p class="section-label" id="tableCountLabel" style="margin:0">โต๊ะที่เปิดอยู่ตอนนี้ (0)</p>
+      <button onclick="location.href='tables.html'"
+        style="font-size:13px;padding:6px 12px;border-radius:16px;background:var(--accent-bg);color:var(--accent);border:1px solid var(--accent);cursor:pointer;font-weight:600;display:inline-flex;align-items:center;gap:4px">
+        <i data-lucide="settings"></i> จัดการโต๊ะ</button>
+    </div>
+    <div id="tableList"></div>
+
+  </div>
+
+  <!-- Modal ยืนยันปิด/เปิดร้าน -->
+  <div class="modal-overlay" id="confirmModal">
+    <div class="modal-box">
+      <h3 id="modalTitle">ปิดร้านตอนนี้เลยไหม</h3>
+      <p id="modalDesc">ร้านจะหยุดรับออเดอร์ใหม่ทันที ลูกค้าที่สแกน QR จะเห็นว่าร้านปิดอยู่</p>
+      <div class="modal-actions">
+        <button id="modalCancel">ยกเลิก</button>
+        <button class="btn-danger" id="modalConfirm" style="width:auto">ยืนยัน</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="js/vendor/socket.io.min.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/home.js"></script>
+</body>
+
+</html>

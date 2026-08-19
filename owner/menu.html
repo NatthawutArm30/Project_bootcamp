@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>จัดการเมนู - ร้านลุง</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div id="toast"></div>
+
+<div class="container">
+  <div class="header">
+    <p class="page-title">จัดการเมนู</p>
+    <button onclick="document.getElementById('addModal').classList.add('show')" style="width:36px;height:36px;padding:0;background:var(--accent);color:white;border:none;font-size:18px">+</button>
+  </div>
+
+  <div id="menuList"></div>
+</div>
+
+<!-- Modal เพิ่มเมนูใหม่ -->
+<div class="modal-overlay" id="addModal">
+  <div class="modal-box">
+    <h3>เพิ่มเมนูใหม่</h3>
+    <div class="field">
+      <label>ชื่อเมนู</label>
+      <input type="text" id="newItemName" placeholder="เช่น ผัดกะเพรา">
+    </div>
+    <div class="field">
+      <label>ราคา</label>
+      <input type="number" id="newItemPrice" placeholder="0">
+    </div>
+    <div class="field">
+      <label>หมวดหมู่</label>
+      <select id="newItemCategory" style="width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:10px;font-size:14px"></select>
+    </div>
+    <div class="modal-actions">
+      <button onclick="document.getElementById('addModal').classList.remove('show')">ยกเลิก</button>
+      <button class="btn-success" id="saveNewItemBtn" style="width:auto">บันทึก</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="js/vendor/socket.io.min.js"></script>
+<script src="js/api.js"></script>
+<script src="js/menu.js"></script>
+</body>
+</html>

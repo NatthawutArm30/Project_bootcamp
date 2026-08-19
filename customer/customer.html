@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>สั่งอาหาร - ระบบสั่งอาหาร QR Code</title>
+  <link rel="stylesheet" href="css/customer.css">
+</head>
+<body>
+  <div class="customer-container">
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast-msg"></div>
+
+    <!-- Sticky Header -->
+    <header class="top-header">
+      <div class="brand-row">
+        <div class="shop-info-box">
+          <h1 id="shopName">ร้านอาหารตามสั่ง คุณป้า</h1>
+        </div>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <div id="tableBadge" class="table-badge">
+            <i data-lucide="map-pin"></i> โต๊ะ <span id="tableNumDisplay">1</span>
+          </div>
+          <div id="shopStatusBadge" class="shop-status-tag open">
+            <span class="status-dot"></span>
+            <span id="shopStatusText">เปิดรับออเดอร์</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- View Switcher Tabs -->
+      <div class="view-tabs">
+        <button id="tabMenuBtn" class="tab-btn active" onclick="switchView('menu')">
+          <i data-lucide="utensils"></i> เมนูอาหาร
+        </button>
+        <button id="tabStatusBtn" class="tab-btn" onclick="switchView('status')">
+          <i data-lucide="clipboard-list"></i> รายการที่สั่ง
+          <span id="tabOrderCountBadge" class="tab-badge" style="display: none;">0</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Shop Closed Alert Banner -->
+    <div id="closedBanner" class="closed-banner" style="display: none;">
+      <i data-lucide="triangle-alert"></i> ขณะนี้ร้านปิดให้บริการสั่งอาหารชั่วคราว
+    </div>
+
+    <!-- Category Chips Bar -->
+    <nav id="categoryChipsNav" class="categories-chips">
+      <!-- Dynamic Categories -->
+    </nav>
+
+    <!-- Content Area: Menu View -->
+    <main id="menuView" class="content-section">
+      <div id="menuContainer">
+        <!-- Dynamic Menu List -->
+      </div>
+    </main>
+
+    <!-- Content Area: Order Status View -->
+    <main id="statusView" class="content-section" style="display: none;">
+      <div id="statusContainer">
+        <!-- Dynamic Order & Table Status -->
+      </div>
+    </main>
+
+    <!-- Floating Cart Bar -->
+    <div id="cartFloatingBar" class="cart-floating-bar" style="display: none;" onclick="openCartModal()">
+      <div class="cart-bar-left">
+        <div class="cart-icon-wrapper">
+          <i data-lucide="shopping-cart"></i>
+          <span id="cartCountBadge" class="cart-badge">0</span>
+        </div>
+        <div class="cart-bar-info">
+          <span class="cart-bar-count">ตะกร้าของคุณ</span>
+          <span id="cartTotalDisplay" class="cart-bar-total">0 ฿</span>
+        </div>
+      </div>
+      <div class="cart-bar-btn">
+        ดูตะกร้า <i data-lucide="arrow-right"></i>
+      </div>
+    </div>
+
+    <!-- Modal 1: Option Customization Bottom Sheet -->
+    <div id="optionModal" class="modal-overlay" onclick="handleModalOverlayClick(event, 'optionModal')">
+      <div class="bottom-sheet">
+        <div class="sheet-handle"></div>
+        <div class="sheet-header">
+          <div>
+            <h2 id="modalItemTitle" class="sheet-title">ผัดกะเพราหมูสับ</h2>
+            <div id="modalItemPrice" class="sheet-subtitle">50 ฿</div>
+          </div>
+          <button class="close-modal-btn" onclick="closeOptionModal()"><i data-lucide="x"></i></button>
+        </div>
+
+        <div id="optionGroupsContainer">
+          <!-- Dynamic Options -->
+        </div>
+
+        <!-- Custom Note Field -->
+        <div class="custom-note-group">
+          <div class="option-group-name"><i data-lucide="pencil-line"></i> หมายเหตุเพิ่มเติม (ถ้ามี)</div>
+          <textarea id="modalCustomNote" class="custom-note-input" rows="2" placeholder="เช่น เผ็ดน้อย, ไม่ใส่ผักกาดหอม, แยกน้ำ..."></textarea>
+        </div>
+
+        <!-- Quantity Stepper -->
+        <div class="qty-stepper-row">
+          <span style="font-weight: 600; font-size: 0.9rem;">จำนวน</span>
+          <div class="stepper-box">
+            <button class="stepper-btn" onclick="changeModalQty(-1)">-</button>
+            <span id="modalQtyDisplay" class="stepper-val">1</span>
+            <button class="stepper-btn" onclick="changeModalQty(1)">+</button>
+          </div>
+        </div>
+
+        <!-- Add to Cart CTA Button -->
+        <button id="addToCartBtn" class="btn-cta" onclick="confirmAddToCart()">
+          เพิ่มลงตะกร้า • <span id="modalSubtotalDisplay">50 ฿</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Modal 2: Cart Review & Checkout Bottom Sheet -->
+    <div id="cartModal" class="modal-overlay" onclick="handleModalOverlayClick(event, 'cartModal')">
+      <div class="bottom-sheet">
+        <div class="sheet-handle"></div>
+        <div class="sheet-header">
+          <div>
+            <h2 class="sheet-title"><i data-lucide="shopping-cart"></i> ตะกร้าสินค้า</h2>
+            <div class="sheet-subtitle">โต๊ะ <span id="cartTableNum">1</span></div>
+          </div>
+          <button class="close-modal-btn" onclick="closeCartModal()"><i data-lucide="x"></i></button>
+        </div>
+
+        <!-- Cart Items List -->
+        <div id="cartItemsContainer">
+          <!-- Dynamic Cart Items -->
+        </div>
+
+        <!-- Cart Summary Footer -->
+        <div style="margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--border);">
+          <div style="display: flex; justify-content: space-between; font-size: 1.05rem; font-weight: 700; margin-bottom: 16px;">
+            <span>ยอดรวมทั้งสิ้น</span>
+            <span id="cartTotalSummary" style="color: var(--primary-dark);">0 ฿</span>
+          </div>
+
+          <button id="submitOrderBtn" class="btn-cta" onclick="submitCustomerOrder()">
+            <i data-lucide="send"></i> ยืนยันส่งออเดอร์
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Socket.IO Client & Customer App Logic -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="js/vendor/socket.io.min.js"></script>
+  <script src="js/customer.js"></script>
+</body>
+</html>

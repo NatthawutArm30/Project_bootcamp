@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>รายละเอียดโต๊ะ - ร้านลุง</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div id="toast"></div>
+
+<div class="container">
+  <div class="header">
+    <div style="display:flex;align-items:center;gap:10px">
+      <button onclick="location.href='close-bill.html'" style="border:none;background:none;font-size:18px;padding:4px"><i data-lucide="arrow-left"></i></button>
+      <p class="page-title" id="tableTitle">โต๊ะ...</p>
+    </div>
+  </div>
+
+  <p id="sessionMeta" style="font-size:13px;color:var(--text-muted);margin:0 0 12px"></p>
+
+  <div id="pendingCard" style="display:none;margin-bottom:16px"></div>
+
+  <div class="card" id="roundsCard" style="margin-bottom:16px"></div>
+
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:0 4px;margin-bottom:20px">
+    <p style="font-size:16px;font-weight:500;margin:0">ยอดรวมทั้งหมด</p>
+    <p style="font-size:24px;font-weight:600;margin:0" id="totalAmount">฿0</p>
+  </div>
+
+  <button class="btn-primary" id="closeBillBtn" style="display:flex;align-items:center;justify-content:center;gap:8px"><i data-lucide="check"></i> ได้รับเงินแล้ว ปิดบิล</button>
+</div>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="js/vendor/socket.io.min.js"></script>
+<script src="js/api.js"></script>
+<script src="js/table-detail.js"></script>
+</body>
+</html>

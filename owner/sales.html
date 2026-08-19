@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ยอดขาย - ร้านลุง</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div id="toast"></div>
+
+<div class="container">
+  <div class="header">
+    <p class="page-title">สรุปยอดขาย</p>
+  </div>
+
+  <div style="display:flex;gap:8px;margin-bottom:10px;">
+    <button id="modeDayBtn" class="tab-btn active" style="padding:6px 14px;border-radius:20px;font-size:13px;" onclick="setSalesMode('day')">รายวัน</button>
+    <button id="modeMonthBtn" class="tab-btn" style="padding:6px 14px;border-radius:20px;font-size:13px;" onclick="setSalesMode('month')">รายเดือน</button>
+    <button id="modeRangeBtn" class="tab-btn" style="padding:6px 14px;border-radius:20px;font-size:13px;" onclick="setSalesMode('range')">ช่วงวันที่</button>
+  </div>
+
+  <div style="display:flex;gap:8px;margin-bottom:6px;">
+    <div id="dateInputWrap" style="flex:1;position:relative;">
+      <input type="date" id="dateInput" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;font-size:14px;color:transparent;background:transparent;">
+      <span id="dateInputLabel" class="date-caption"></span>
+    </div>
+    <div id="monthInputWrap" style="flex:1;position:relative;display:none;">
+      <input type="month" id="monthInput" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;font-size:14px;color:transparent;background:transparent;">
+      <span id="monthInputLabel" class="date-caption"></span>
+    </div>
+    <div id="startInputWrap" style="flex:1;position:relative;display:none;">
+      <input type="date" id="startInput" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;font-size:14px;color:transparent;background:transparent;">
+      <span id="startInputLabel" class="date-caption"></span>
+    </div>
+    <div id="endInputWrap" style="flex:1;position:relative;display:none;">
+      <input type="date" id="endInput" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;font-size:14px;color:transparent;background:transparent;">
+      <span id="endInputLabel" class="date-caption"></span>
+    </div>
+    <button onclick="goToToday()" style="font-size:13px;padding:0 14px;white-space:nowrap;">วันนี้</button>
+  </div>
+
+  <style>
+    .date-caption {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 14px;
+      color: var(--text-primary, #111);
+      pointer-events: none;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: calc(100% - 20px);
+    }
+  </style>
+
+  <div class="sales-total-card">
+    <p class="label" id="periodLabel">ยอดขายรวมวันนี้</p>
+    <p class="amount" id="totalAmount">฿0</p>
+    <p class="sub" id="billCount">0 บิล</p>
+  </div>
+
+  <p class="section-label" id="topItemsLabel">ขายดีวันนี้</p>
+  <div id="topItems"></div>
+</div>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="js/vendor/socket.io.min.js"></script>
+<script src="js/api.js"></script>
+<script src="js/sales.js"></script>
+</body>
+</html>

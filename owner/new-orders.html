@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>รายการออเดอร์ - ร้านอาหาร</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div id="toast"></div>
+
+<div class="container">
+  <div class="header">
+    <div style="display:flex;align-items:center;gap:10px">
+      <button onclick="location.href='index.html'" style="border:none;background:none;font-size:18px;padding:4px;cursor:pointer;"><i data-lucide="arrow-left"></i></button>
+      <p class="page-title" id="pageTitle">รายการออเดอร์ (0)</p>
+    </div>
+  </div>
+
+  <!-- Order Type Filters -->
+  <div style="display:flex;gap:8px;margin-bottom:16px;overflow-x:auto;">
+    <button id="filterAllBtn" class="tab-btn active" style="padding:6px 14px;border-radius:20px;font-size:13px;" onclick="setOrderFilter('all')">ทั้งหมด</button>
+    <button id="filterDineInBtn" class="tab-btn" style="padding:6px 14px;border-radius:20px;font-size:13px;" onclick="setOrderFilter('dine_in')"><i data-lucide="utensils"></i> ทานที่ร้าน</button>
+    <button id="filterTakeawayBtn" class="tab-btn" style="padding:6px 14px;border-radius:20px;font-size:13px;" onclick="setOrderFilter('takeaway')"><i data-lucide="shopping-bag"></i> สั่งกลับบ้าน</button>
+  </div>
+
+  <div id="orderList"></div>
+</div>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="js/vendor/socket.io.min.js"></script>
+<script src="js/api.js"></script>
+<script src="js/new-orders.js"></script>
+</body>
+</html>

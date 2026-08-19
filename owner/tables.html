@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>จัดการโต๊ะอาหาร - ฝั่งเจ้าของร้าน</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div id="toast"></div>
+
+<div class="container">
+  <div class="header">
+    <div style="display:flex;align-items:center;gap:10px">
+      <button onclick="location.href='index.html'" style="border:none;background:none;font-size:18px;padding:4px;cursor:pointer;"><i data-lucide="arrow-left"></i></button>
+      <p class="page-title" id="pageTitle">จัดการโต๊ะอาหาร</p>
+    </div>
+  </div>
+
+  <!-- Add New Table Form Card -->
+  <div class="card" style="margin-bottom:16px;">
+    <h3 style="margin-top:0;font-size:16px;margin-bottom:10px;display:flex;align-items:center;gap:6px;"><i data-lucide="plus-circle"></i> เพิ่มโต๊ะอาหารใหม่</h3>
+    <div style="display:flex;gap:8px;">
+      <input type="number" id="newTableNumInput" placeholder="ระบุเลขโต๊ะ เช่น 9" style="flex:1;padding:10px;border:1px solid var(--border);border-radius:8px;font-size:14px;">
+      <button class="btn-primary" style="width:auto;padding:10px 18px;" onclick="addNewTable()">เพิ่มโต๊ะ</button>
+    </div>
+  </div>
+
+  <!-- Existing Tables Grid -->
+  <div id="tablesGrid" style="display:grid;grid-template-columns:repeat(auto-fill, minmax(140px, 1fr));gap:12px;"></div>
+
+  <!-- Garbage Cleanup Testing Card -->
+  <div class="card" style="margin-top:24px;margin-bottom:16px;background:#fcfcfc;border:1px dashed var(--border);padding:16px;border-radius:12px;">
+    <h3 style="margin-top:0;font-size:15px;margin-bottom:6px;display:flex;align-items:center;gap:6px;">
+      <i data-lucide="trash-2"></i> ระบบลบขยะ & จัดการข้อมูลเก่า
+    </h3>
+    <p style="font-size:12px;color:var(--text-secondary);margin:0 0 12px 0;line-height:1.4;">
+      ระบบจะอัตโนมัติลบเซสชันที่ปิดแล้วและออเดอร์กลับบ้านที่เสิร์ฟแล้วที่เก่ากว่า 7 วัน คุณสามารถกดปุ่มทดสอบด้านล่างได้ทันที:
+    </p>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <button style="font-size:13px;padding:9px 12px;background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;border-radius:8px;cursor:pointer;text-align:left;font-weight:600;display:flex;align-items:center;gap:6px;" onclick="testSeedOldData()">
+        <i data-lucide="flask-conical"></i> 1. จำลองสร้างข้อมูลเก่า (> 7 วัน)
+      </button>
+      <button style="font-size:13px;padding:9px 12px;background:#f0fdf4;color:#15803d;border:1px solid #bbf7d0;border-radius:8px;cursor:pointer;text-align:left;font-weight:600;display:flex;align-items:center;gap:6px;" onclick="testRunCleanup(7)">
+        <i data-lucide="trash-2"></i> 2. ทดสอบลบข้อมูลขยะ (> 7 วัน)
+      </button>
+      <button style="font-size:13px;padding:9px 12px;background:#fef2f2;color:#b91c1c;border:1px solid #fecaca;border-radius:8px;cursor:pointer;text-align:left;font-weight:600;display:flex;align-items:center;gap:6px;" onclick="testForceCleanAll()">
+        <i data-lucide="zap"></i> 3. ลบประวัติออเดอร์ที่ปิดบิลแล้วทั้งหมด (Force Clean)
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="js/vendor/socket.io.min.js"></script>
+<script src="js/api.js"></script>
+<script src="js/tables.js"></script>
+</body>
+</html>
